@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Backend.DataAccess
 {
+    
     public partial class DataContext : DbContext
     {
         #region Properties
@@ -25,6 +26,9 @@ namespace Backend.DataAccess
                 optionsBuilder.UseSqlServer(_settings.ConnectionString);
             }
         }
+
+        public virtual DbSet<User> Users { get; set; }
+
         #endregion
     }
 }

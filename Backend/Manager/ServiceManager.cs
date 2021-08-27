@@ -45,5 +45,15 @@ namespace Backend.Manager
             // TODO: free unmanaged resources (unmanaged objects) and override finalizer
             // TODO: set large fields to null
         }
+
+        #endregion
+
+        #region Call
+        public List<User> GetUsers()
+        {
+            return _context.Users.ToList();
+        }
+
+        #endregion
     }
 }

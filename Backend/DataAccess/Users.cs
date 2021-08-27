@@ -1,14 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Backend.DataAccess
 {
-    public class Users
+    [DataContract]
+    public class User
     {
-        public int USID { get; set; }
-        public string Username { get; set; }
+        [Key]
+        [DataMember]
+        public virtual int USID { get; set; }
+
+        [DataMember]
+        public virtual string Username { get; set; }
+
+        // [NotMapped] --> Ritorna null come valore nel campo
+        // [JsonIgnore] --> Non ritorna nemmeno il campo
     }
 }

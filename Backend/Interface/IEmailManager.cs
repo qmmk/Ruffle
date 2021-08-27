@@ -1,5 +1,4 @@
-﻿using Backend.DataAccess;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Backend.Interface
 {
-    public interface IServiceManager
+    public interface IEmailManager
     {
-        public List<User> GetUsers();
+        Task SendEmailAsync(string email, string subject, string message);
     }
 }

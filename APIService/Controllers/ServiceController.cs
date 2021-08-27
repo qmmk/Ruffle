@@ -46,41 +46,11 @@ namespace Ruffle.Controllers
         public ActionResult Login([FromBody] LoginRequestModel lrm)
         {
             // FIRST CHECK
-            var res = _manager.Login(lrm.username, lrm.password);
+            var res = _manager.GetUsers();
+            return Ok(res);
 
-            if (!res.Success)
-                return BadRequest(res.Message);
-
-            // NEW LOGIN CRED
-            var user = UserService.Instance.Authenticate(res.Data,
-                Encoding.ASCII.GetBytes(_opt.JwtTokenSecret));
-
-            if (user.RefreshToken == null || !user.RefreshToken.IsActive)
-            {
-                //REFRESH
-                var randomBytes = new byte[64];
-                using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
-                {
-                    rngCryptoServiceProvider.GetBytes(randomBytes);
-                }
-
-                user.RefreshToken = new RefreshToken
-                {
-                    rToken = Convert.ToBase64String(randomBytes),
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    CreatedBy = user.PID
-                };
-            }
-            var x = _manager.InsertOrUpdateRefreshToken(user.RefreshToken);
-            if (x.Success)
-            {
-                // NEW USER CREDENTIALS (ACCESS & REFRESH TOKEN)
-                return Ok(user);
-            }
-            else
-            {
-                return BadRequest(x.Message);
-            }
         }
+
+        #endregion
     }
 }
